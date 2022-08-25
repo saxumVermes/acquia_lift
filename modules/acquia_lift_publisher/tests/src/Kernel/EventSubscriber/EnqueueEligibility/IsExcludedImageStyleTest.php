@@ -26,7 +26,7 @@ class IsExcludedImageStyleTest extends KernelTestBase {
   use NodeCreationTrait;
   use TaxonomyTestTrait;
 
-  public static $modules = [
+  protected static $modules = [
     'field',
     'filter',
     'node',
@@ -60,7 +60,7 @@ class IsExcludedImageStyleTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installSchema('acquia_contenthub_publisher', ['acquia_contenthub_publisher_export_tracking']);

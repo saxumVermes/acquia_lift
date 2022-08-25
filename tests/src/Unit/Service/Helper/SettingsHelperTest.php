@@ -2,6 +2,12 @@
 
 namespace Drupal\Tests\acquia_lift\Unit\Service\Helper;
 
+use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Client;
+use Drupal\Core\Http\ClientFactory;
+use Prophecy\Argument;
+use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Exception;
 use Drupal\Tests\UnitTestCase;
 use Drupal\acquia_lift\Service\Helper\SettingsHelper;
@@ -15,9 +21,10 @@ use Drupal\Tests\acquia_lift\Unit\Traits\SettingsDataTrait;
  */
 class SettingsHelperTest extends UnitTestCase {
 
+  use ProphecyTrait;
   use SettingsDataTrait;
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
   }
 
@@ -260,14 +267,14 @@ class SettingsHelperTest extends UnitTestCase {
    * @dataProvider providerTestPingUri
    */
   public function testPingUri($test_value, $expected) {
-    $response = $this->prophesize(\Psr\Http\Message\ResponseInterface::class);
+    $response = $this->prophesize(ResponseInterface::class);
     $response->getStatusCode()->willReturn($expected['statusCode']);
     $response->getReasonPhrase()->willReturn($expected['reasonPhrase']);
-    $client = $this->prophesize(\GuzzleHttp\Client::class);
+    $client = $this->prophesize(Client::class);
     $client->get($test_value[1], ['http_errors' => false])->willReturn($response->reveal());
-    $clientFactory = $this->prophesize(\Drupal\Core\Http\ClientFactory::class);
-    $clientFactory->fromOptions(\Prophecy\Argument::any())->willReturn($client->reveal());
-    $container = $this->prophesize(\Drupal\Core\DependencyInjection\ContainerBuilder::class);
+    $clientFactory = $this->prophesize(ClientFactory::class);
+    $clientFactory->fromOptions(Argument::any())->willReturn($client->reveal());
+    $container = $this->prophesize(ContainerBuilder::class);
     $container->get('http_client_factory')->willReturn($clientFactory->reveal());
     \Drupal::setContainer($container->reveal());
 

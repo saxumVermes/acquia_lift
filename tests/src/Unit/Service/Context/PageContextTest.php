@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\acquia_lift\Unit\Service\Context;
 
-use Drupal\Tests\UnitTestCase;
 use Drupal\acquia_lift\Service\Context\PageContext;
 use Drupal\Tests\acquia_lift\Unit\Traits\SettingsDataTrait;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * PageContextTest Test.
@@ -147,40 +147,16 @@ class PageContextTest extends UnitTestCase {
       ->willReturn($this->settings);
 
     // Mock settings credential method and return val
-    $this->settings->expects($this->at(0))
+    $this->settings->expects($this->exactly(6))
       ->method('get')
-      ->with('credential')
-      ->willReturn($this->getValidCredentialSettings());
-
-    // Mock settings field_mapping method and return val
-    $this->settings->expects($this->at(1))
-      ->method('get')
-      ->with('field_mappings')
-      ->willReturn($this->getValidFieldMappingsSettings());
-
-    // Mock settings udf_person_mappings method and return val
-    $this->settings->expects($this->at(2))
-      ->method('get')
-      ->with('udf_person_mappings')
-      ->willReturn($this->getValidUdfPersonMappingsSettings());
-
-    // Mock settings udf_touch_mappings method and return val
-    $this->settings->expects($this->at(3))
-      ->method('get')
-      ->with('udf_touch_mappings')
-      ->willReturn($this->getValidUdfTouchMappingsSettings());
-
-    // Mock settings udf_event_mappings method and return val
-    $this->settings->expects($this->at(4))
-      ->method('get')
-      ->with('udf_event_mappings')
-      ->willReturn($this->getValidUdfEventMappingsSettings());
-
-    // Mock settings advanced method and return val
-    $this->settings->expects($this->at(5))
-      ->method('get')
-      ->with('advanced')
-      ->willReturn($this->getValidAdvancedSettings());
+      ->willReturnMap([
+        ['credential', $this->getValidCredentialSettings()],
+        ['field_mappings', $this->getValidFieldMappingsSettings()],
+        ['udf_person_mappings', $this->getValidUdfPersonMappingsSettings()],
+        ['udf_touch_mappings', $this->getValidUdfTouchMappingsSettings()],
+        ['udf_event_mappings', $this->getValidUdfEventMappingsSettings()],
+        ['advanced', $this->getValidAdvancedSettings()],
+      ]);
 
     // Mock entity type manager getStorage method and return val
     $this->entityTypeManager->expects($this->once())
@@ -370,7 +346,6 @@ class PageContextTest extends UnitTestCase {
         '#markup' => 'My Title from Title Resolver <a><a/><script></script><br />',
         '#allowed_tags' => ['br'],
       ]);
-
 
     // Language mock
     $this->language
@@ -594,4 +569,5 @@ class PageContextTest extends UnitTestCase {
 
     return $renderArray;
   }
+
 }
