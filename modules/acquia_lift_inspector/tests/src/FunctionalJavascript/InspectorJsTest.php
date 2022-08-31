@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @file
- */
-
 namespace Drupal\Tests\acquia_lift_inspector\FunctionalJavascript;
 
 use Drupal\Tests\acquia_lift\Unit\Traits\SettingsDataTrait;

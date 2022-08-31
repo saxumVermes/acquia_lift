@@ -24,7 +24,7 @@ use PHPUnit\Framework\AssertionFailedError;
 use Prophecy\Argument;
 
 /**
- * Class PublishOnlyRenderedTest.
+ * Tests the Publish Only Rendered content.
  *
  * @group acquia_lift_publisher
  *

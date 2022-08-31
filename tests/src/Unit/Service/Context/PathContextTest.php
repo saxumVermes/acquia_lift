@@ -7,9 +7,9 @@ use Drupal\Tests\acquia_lift\Unit\Traits\SettingsDataTrait;
 use Drupal\Tests\UnitTestCase;
 
 /**
- * PathContextTest Test.
+ * Tests the Path Context.
  *
- * @coversDefaultClass Drupal\acquia_lift\Service\Context\PathContext
+ * @coversDefaultClass \Drupal\acquia_lift\Service\Context\PathContext
  * @group acquia_lift
  */
 class PathContextTest extends UnitTestCase {
@@ -17,11 +17,15 @@ class PathContextTest extends UnitTestCase {
   use SettingsDataTrait;
 
   /**
+   * Drupal Config Factory.
+   *
    * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   private $configFactory;
 
   /**
+   * Lift Config.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
    */
   private $settings;
@@ -94,15 +98,18 @@ class PathContextTest extends UnitTestCase {
   /**
    * Tests the shouldAttach() method.
    *
-   * @covers ::shouldAttach
-   *
-   * @param boolean $set_invalid_credential
-   * @param boolean $do_match_pattern
+   * @param bool $set_invalid_credential
+   *   Set Invalid Credentials.
+   * @param bool $do_match_pattern
+   *   Check if the pattern matches.
    * @param array $expect_should_attach
+   *   Expected attachment.
+   *
+   * @covers ::shouldAttach
    *
    * @dataProvider providerTestShouldAttach
    */
-  public function testShouldAttach($set_invalid_credential, $do_match_pattern, $expect_should_attach) {
+  public function testShouldAttach($set_invalid_credential, $do_match_pattern, array $expect_should_attach) {
     $credential_settings = $this->getValidCredentialSettings();
 
     if ($set_invalid_credential) {
@@ -167,20 +174,25 @@ class PathContextTest extends UnitTestCase {
   }
 
   /**
-   * Tests the populate() method, populateHtmlHead() sub method, "set identity and identity type" sub routine.
+   * Tests the populate() method, populateHtmlHead() sub method.
+   *
+   * @param string $query_parameter_string
+   *   Query Parameters.
+   * @param bool $capture_identity
+   *   Identity.
+   * @param bool $do_set_user
+   *   Check to see if user is set.
+   * @param array $expect_cache
+   *   Expected Cache values.
+   * @param array $expect_html_head
+   *   Expected HTML headers.
    *
    * @covers ::setContextIdentityByUser
    * @covers ::populate
    *
-   * @param string $query_parameter_string
-   * @param boolean $capture_identity
-   * @param boolean $do_set_user
-   * @param array $expect_cache
-   * @param array $expect_html_head
-   *
    * @dataProvider providerTestPopulateHtmlHeadIdentities
    */
-  public function testPopulateHtmlHeadIdentities($query_parameter_string, $capture_identity, $do_set_user, $expect_cache, $expect_html_head) {
+  public function testPopulateHtmlHeadIdentities($query_parameter_string, $capture_identity, $do_set_user, array $expect_cache, array $expect_html_head) {
     $this->requestStack->expects($this->once())
       ->method('getCurrentRequest')
       ->willReturn($this->request);
@@ -325,11 +337,14 @@ class PathContextTest extends UnitTestCase {
   /**
    * Tests the populate() method, "set identity and identity type" sub routine.
    *
-   * @covers ::populate
-   *
-   * @param integer $expect_set_cache
    * @param array $identity_settings
+   *   The identity settings.
+   * @param int $expect_set_cache
+   *   Expected Cache value.
    * @param array $expect_cache_context
+   *   Expected Cache context.
+   *
+   * @covers ::populate
    *
    * @dataProvider providerTestPopulateCache
    */

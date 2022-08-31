@@ -10,7 +10,7 @@ use Drupal\Tests\node\Traits\NodeCreationTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
 
 /**
- * Class IsExcludedImageStyleTest.
+ * Tests if ImageStyle is excluded.
  *
  * @group acquia_lift_publisher
  *
@@ -26,6 +26,9 @@ class IsExcludedImageStyleTest extends KernelTestBase {
   use NodeCreationTrait;
   use TaxonomyTestTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = [
     'field',
     'filter',
@@ -41,6 +44,11 @@ class IsExcludedImageStyleTest extends KernelTestBase {
     'acquia_lift_publisher',
   ];
 
+  /**
+   * Lift Registry.
+   *
+   * @var array
+   */
   protected static $registry = [];
 
   /**
